@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WebBhavcopyApp.Models.Equity>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EquityDetails</title>
+    <link rel="stylesheet" href="~/css/myStyles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        function myFunction() {
+            var input = document.getElementById("myInput");
+            var filter = input.value.toUpperCase();
+            var table = document.getElementById("myContent");
+            var tr = table.getElementsByTagName("tr");
+            for (var i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    var txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="searchCode">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search by equity name"><i class="fa fa-search" style="color:blue"></i>
+    </div>
+    <h4 style="color:white; text-align:center">@ViewBag.date</h4>
+    <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <tr>
+                    <th>Equity Code</th>
+                    <th>Equity Name</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                    <th>Last</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0" border="0" id="myContent">
+            <tbody>
+                @try
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.EquityId</td>
+                            <td>@item.EquityName</td>
+                            <td>@item.OpenValue</td>
+                            <td>@item.HighValue</td>
+                            <td>@item.LowValue</td>
+                            <td>@item.CloseValue</td>
+                            <td>@item.LastValue</td>
+                        </tr>
+                    }
+                }
+                catch (Exception)
+                {
+                    <tr>
+                        <td style="text-align:center">Oops, unable to find the file !! Please download the file from <a href="@ViewBag.Mssg" style="color:white">here</a> and refresh the page.</td>
+                    </tr>
+                }               
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
